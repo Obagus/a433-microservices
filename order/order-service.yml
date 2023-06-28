@@ -1,0 +1,29 @@
+# API Kubernetes versi 1
+apiVersion: v1
+
+# Kubernetes object yang digunakan, yaitu Service
+kind: Service
+
+# Informasi resource Service
+metadata:
+  # Nama dari service order
+  name: order-service
+  # Nama label yang digunakan oleh service
+  labels:
+    app: order
+
+# Spesifikasi dari service
+spec:
+  # Selector yang digunakan service
+  selector:
+    app: order
+  # Port dan protokol yang digunakan service
+  ports:
+      # Nama alias dari port
+    - name: order-service 
+      # Protokol yang digunakan
+      protocol: TCP 
+      # Port yang dibuka untuk order service
+      port: 3000 
+      # Port container yang menerima traffic order service
+      targetPort: 3000 

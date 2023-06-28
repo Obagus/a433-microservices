@@ -1,0 +1,49 @@
+# API Kubernetes versi 'apps/v1'
+apiVersion: apps/v1
+
+# Kubernetes object yang digunakan Deployment
+kind: Deployment
+
+# Informasi mengenai resource pod
+metadata:
+  # Nama dari pod order service
+  name: order-service
+  # Nama label yang digunakan oleh pod
+  labels:
+    app: order
+
+# Menentukan spesifikasi dari pod
+spec:
+  # Menentukan selector untuk pod
+  selector:
+    # Selector yang digunakan yang memiliki label app order
+    matchLabels:
+      app: order
+
+  # Replica dari pod berjumlah 1
+  replicas: 1
+
+  # Menentukan template pod
+  template:
+    metadata:
+      labels:
+        app: order
+
+    # Spesifikasi container
+    spec:
+      containers:
+        # Nama dari cointainer
+        - name: order-service
+          # Image yang digunakan dari github package
+          image: ghcr.io/obagus/order-service:latest
+          # Port yang akan digunakan container
+          ports:
+            - containerPort: 3000
+
+          # Menambahkan env yang digunakan pada container
+          env:
+            - name: PORT #variable yang akan di set
+              value: "3000" #value yang akan di set
+            # Nilai URL AMQP
+            - name: AMQP_URL
+              value: "amqp://10.244.0.25:5672"

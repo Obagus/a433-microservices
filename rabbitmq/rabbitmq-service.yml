@@ -1,0 +1,38 @@
+# API Kubernetes versi 1
+apiVersion: v1
+
+# Kubernetes object yang digunakan Service
+kind: Service
+
+# Informasi mengenai resource Service
+metadata:
+  # Mendefinisikan nama dari service
+  name: rabbitmq
+  # Mendefinisikan label yang digunakan oleh service
+  labels:
+    app: rabbitmq
+
+# Menentukan spesifikasi dari service
+spec:
+  # Menentukan selector yang digunakan service seperti nama app
+  selector:
+    app: rabbitmq
+  # Menentukan port dan protokol yang digunakan service
+  ports:
+    # Mendefinisikan protokol amqp yang digunakan rabbitmq
+    - name: rabbitmq-amqp 
+      # Port default dari protokol amqp rabbitmq 
+      port: 5672 
+      # Port container yang menerima traffic protokol amqp
+      targetPort: 5672 
+      protocol: TCP #protokol yang digunakan oleh Service adalah TCP
+
+    # Mendefinisikan port management interface untuk mengakses halaman RabbitMQ management interface
+    - name: rabbitmq-management
+      # Port default dari RabbitMQ management interface 
+      port: 15672 
+      # Port container yang menerima traffic management interface
+      targetPort: 15672 
+      protocol: TCP #protokol yang digunakan oleh Service adalah TCP
+
+  

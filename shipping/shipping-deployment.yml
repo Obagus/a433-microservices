@@ -1,0 +1,49 @@
+# API Kubernetes versi 'apps/v1'
+apiVersion: apps/v1
+
+# Kubernetes object yang digunakan Deployment
+kind: Deployment
+
+# Informasi mengenai resource pod
+metadata:
+  # Nama dari pod shipping service
+  name: shipping-service
+  # Nama label yang digunakan oleh pod
+  labels:
+    app: shipping
+
+# Spesifikasi dari pod
+spec:
+  # Selector untuk mengidentifikasi pod
+  selector:
+    # Yang digunakan yang memiliki label app shipping
+    matchLabels:
+      app: shipping
+
+  # Replica dari pod berjumlah 1
+  replicas: 1
+
+  # Menentukan template pod 
+  template:
+    metadata:
+      labels:
+        app: shipping
+
+    # Spesifikasi container
+    spec:
+      containers:
+        # Nama dari cointainer
+        - name: shipping-service
+          # Image dari github package
+          image: ghcr.io/obagus/shipping-service:latest
+          # Port yang akan digunakan container
+          ports:
+            - containerPort: 3001
+
+          # menambahkan env yang digunakan pada container
+          env:
+            - name: PORT
+              value: "3001" 
+            # mendefinisikan nilai URL AMQP
+            - name: AMQP_URL
+              value: "amqp://10.244.0.25:5672"

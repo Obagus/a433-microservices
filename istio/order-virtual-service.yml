@@ -1,0 +1,36 @@
+# API dari istio yang akan digunakan
+apiVersion: networking.istio.io/v1alpha3 
+
+# Kubernetes object yang digunakan Gateway
+kind: VirtualService
+
+# Berisi metadata untuk VirtualService
+metadata: 
+    # Nama VirtualService yang akan dibuat
+    name: order-virtual-service
+# Spesifikasi VirtualService 
+spec:
+    # Host yang diizinkan untuk akses melalui VirtualService
+    hosts: 
+        - "*" # VirtualService akan menerima semua lalu lintas
+
+    # Gateway yang dikaitkan dengan VirtualService
+    gateways: 
+        - service-gateway # VirtualService akan dikaitkan dengan "service-gateway"
+    
+    # Aturan pengalihan berdasarkan permintaan HTTP
+    http: 
+        # Kondisi yang harus dipenuhi
+        - match: 
+              # Memfilter berdasarkan permintaan URI
+              - uri: 
+                    exact: /order #aturan akan diterapkan pada permintaan URI yang persis dengan "/order"
+          # Kondisi terpenuhi akan dialihkan ketujuan
+          route: 
+              # Tujuan pengalihan lalu lintas
+              - destination: 
+                    # Akan dialihkan ke service "order-service"
+                    host: order-service 
+                    # Port 3000 akan digunakan untuk mengakses service "order-service"
+                    port: 
+                        number: 3000 

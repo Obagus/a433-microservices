@@ -1,0 +1,27 @@
+# API dari istio yang akan digunakan
+apiVersion: networking.istio.io/v1alpha3
+
+# Kubernetes object yang digunakan Gateway
+kind: Gateway
+
+# Informasi mengenai resource pod
+metadata: 
+    # Nama pod Gateway yang akan dibuat
+    name: service-gateway
+
+# Spesifikasi Gateway 
+spec: 
+    # Memilih target dari sumber daya Gateway
+    selector:
+        # Memilih semua pod yang memiliki label "istio=ingressgateway" 
+        istio: ingressgateway 
+
+    # Mendefinisikan daftar server untuk diterapkan pada Gateway
+    servers: 
+        # Mendefinisikan port 
+        - port: 
+              protocol: HTTP # Protokol port adalah HTTP
+              number: 80 # Port 80 akan digunakan
+              name: http # Nama port sebagai "http"
+          hosts: # Host yang diizinkan untuk akses melalui gateway
+              - "*" # Gateway menerima semua lalu lintas
