@@ -1,5 +1,5 @@
 #!/bin/bash
-# Melakukan build image dari file Dockerfile menjadi image 'order-service'
+# Melakukan build image dari file Dockerfile menjadi image 'shipping-service'
 docker build -t shipping-service:latest .
 
 # mengubah nama image sesuai dengan format Github Packages
